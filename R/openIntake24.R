@@ -21,7 +21,7 @@ openIntake24 <- function(input)
     input %>% dplyr::select(-remove_ids) %>% tibble::add_column('RecordID' = RowHash, .before = 'SurveyID')
 
   input_clean <-
-    input_clean %>% mutate(
+    input_clean %>% dplyr::mutate(
       StartDate = lubridate::ymd(as.Date(StartTime)),
       StartTime =  as.POSIXct(StartTime) %>% format(., format = '%H:%M:%S'),
       EndDate = lubridate::ymd(as.Date(SubmissionTime)),
@@ -80,7 +80,8 @@ openIntake24 <- function(input)
     INDEX %>% dplyr::filter(INDEX == 'NUTRIENTS') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
 
   object@nutrients <-
-    input_clean %>% dplyr::select(RecordID, SurveyID, UserID, StartDate, MealName, NutrientID)
+    input_clean %>% dplyr::select(RecordID, SurveyID, UserID, StartDate, MealName, NutrientID) %>%
+    tibble::as_tibble()
 
 
   object@food <-
@@ -101,7 +102,7 @@ openIntake24 <- function(input)
       FoodGroupLocal,
       ServingSize,
       PortionSize
-    )
+    ) %>% tibble::as_tibble()
 
 
 
