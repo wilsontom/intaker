@@ -10,5 +10,24 @@ setMethod('show', signature = 'Intake24',
              right = paste0('tidyIntake24 v', packageVersion('tidyIntake24'))
            ), '\n')
 
-           cat('Object Size:', format(utils::object.size(object), units = 'Mb'), '\n', '\n')
+           cat(crayon::red('Object Size:', format(utils::object.size(object), units = 'Mb'), '\n', '\n'))
+
+           cat(crayon::green('# of Participants:', length(unique(object@meta$User$UserID)), '\n', '\n'))
+           cat(crayon::green('# of Surveys:', length(unique(object@food$SurveyID)), '\n', '\n'))
+
+           cat('Start Date:', as.character(min(object@food$StartDate)), '\n')
+           cat('End Date:', as.character(max(object@food$StartDate)), '\n', '\n')
+
+
+           mostFreq <- object@food %>% dplyr::select(DescriptionEN) %>%
+             dplyr::group_by(DescriptionEN) %>% dplyr::count() %>%
+             dplyr::arrange(-n)
+
+           cat(cli::rule(left = crayon::bold('Top 10 items recorded')), '\n')
+           for (i in 1:10) {
+             cat(paste0(mostFreq$DescriptionEN[i], ' (', crayon::yellow(mostFreq$n[i]), ')', '\n'))
+           }
+
+
+
          })
