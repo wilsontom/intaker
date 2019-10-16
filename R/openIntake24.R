@@ -71,8 +71,18 @@ openIntake24 <- function(input)
     dplyr::full_join(ItemsPerSurvey, TimePerSurvey, by = 'UserID')
 
 
+  UserIDX <-
+    user_meta %>% dplyr::group_split() %>% purrr::map_chr(., ~ {
+      .$UserID[1]
+    })
 
-  object@meta <- list(User = UserOverview, Survery = ItemsPerMeal)
+  SurverysPerUser <-
+    user_meta %>% dplyr::group_split() %>% purrr::map_dbl(., ~ {
+      length(unique(.$SurveyID))
+    }) %>% tibble::tibble(UserID = UserIDX, SurveyCount = .) %>% dplyr::left_join(UserOverview, ., by = 'UserID')
+
+
+  object@meta <- list(User = SurverysPerUser, Survery = ItemsPerMeal)
 
 
 
