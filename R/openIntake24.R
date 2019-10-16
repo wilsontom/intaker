@@ -3,16 +3,17 @@
 #' @param input a `tibble` of the raw Intake24 data export
 #' @return a `Intake24` S4 object
 #'
+#' @importFrom magrittr %>%
 #' @export
 
 openIntake24 <- function(input)
 {
   object <- methods::new('Intake24')
 
-  names(input) <- INDEX$NEW_NAME
+  names(input) <- column_index$NEW_NAME
 
   remove_ids <-
-    INDEX %>% dplyr::filter(INDEX == 'REMOVE') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
+    column_index %>% dplyr::filter(column_index == 'REMOVE') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
 
   RowHash <-
     paste0(input$SurveyID, '_', 1:nrow(input)) %>% openssl::md5()
@@ -87,7 +88,7 @@ openIntake24 <- function(input)
 
 
   NutrientID <-
-    INDEX %>% dplyr::filter(INDEX == 'NUTRIENTS') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
+    column_index %>% dplyr::filter(INDEX == 'NUTRIENTS') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
 
   object@nutrients <-
     input_clean %>% dplyr::select(RecordID, SurveyID, UserID, StartDate, MealName, NutrientID) %>%
