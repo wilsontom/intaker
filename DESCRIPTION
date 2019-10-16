@@ -4,8 +4,7 @@ Title: Tidy Raw Export from Intake24
 Version: 0.1.0
 Authors@R: c(
     person("Tom", "Wilson", , "tpw2@aber.ac.uk", c("aut", "cre")))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Parse and tidy the raw export from an Intake24 experiment for analysis. 
 License: GPL (>= 3)
 Depends:
   magrittr
