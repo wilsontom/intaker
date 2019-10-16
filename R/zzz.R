@@ -1,0 +1,31 @@
+globalVariables(
+  c(
+    '.',
+    'column_index',
+    'INDEX',
+    'NEW_NAME',
+    'StartTime',
+    'SubmissionTime',
+    'CompletionTime',
+    'SurveyID',
+    'UserID',
+    'StartDate',
+    'EndDate',
+    'EndTime',
+    'SearchTerm',
+    'MealName',
+    'n',
+    'value',
+    'RecordID',
+    'MealID',
+    'FoodID',
+    'FoodCode',
+    'DescriptionEN',
+    'DescriptionLocal',
+    'FoodGroupCode',
+    'FoodGroupEN',
+    'FoodGroupLocal',
+    'ServingSize',
+    'PortionSize'
+  )
+)
