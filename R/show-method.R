@@ -21,6 +21,8 @@ setMethod('show', signature = 'Intake24',
 
            mostFreq <- object@food %>% dplyr::select(DescriptionEN) %>%
              dplyr::group_by(DescriptionEN) %>% dplyr::count() %>%
+             dplyr::ungroup() %>%
+             dplyr::filter(DescriptionEN != 'N/A') %>%
              dplyr::arrange(-n)
 
            cat(cli::rule(left = crayon::bold('Top 10 items recorded')), '\n')
