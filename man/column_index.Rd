@@ -4,10 +4,12 @@
 \name{column_index}
 \alias{column_index}
 \title{Index File for Column Names}
-\format{a `tibble` of three variables
+\format{
+a `tibble` of three variables
  * `ORIGINAL_NAME`
  * `NEW_NAME`
- * `INDEX`}
+ * `INDEX`
+}
 \usage{
 column_index
 }
