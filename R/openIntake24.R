@@ -13,13 +13,13 @@ openIntake24 <- function(input)
   names(input) <- column_index$NEW_NAME
 
   remove_ids <-
-    column_index %>% dplyr::filter(column_index == 'REMOVE') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
+    column_index %>% dplyr::filter(INDEX == 'REMOVE') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
 
   RowHash <-
     paste0(input$SurveyID, '_', 1:nrow(input)) %>% openssl::md5()
 
   input_clean <-
-    input %>% dplyr::select(-remove_ids) %>% tibble::add_column('RecordID' = RowHash, .before = 'SurveyID')
+    input %>% dplyr::select(-dplyr::all_of(remove_ids)) %>% tibble::add_column('RecordID' = RowHash, .before = 'SurveyID')
 
   input_clean <-
     input_clean %>% dplyr::mutate(
@@ -32,20 +32,19 @@ openIntake24 <- function(input)
 
 
   user_meta <- input_clean %>% dplyr::select(
-      SurveyID,
-      UserID,
-      StartDate,
-      StartTime,
-      EndDate,
-      EndTime,
-      CompletionTime,
-      SearchTerm,
-      MealName
-    ) %>%
-    dplyr::group_by(UserID)
+    SurveyID,
+    UserID,
+    StartDate,
+    StartTime,
+    EndDate,
+    EndTime,
+    CompletionTime,
+    SearchTerm,
+    MealName
+  )
 
-
-  user_split <- user_meta %>% dplyr::group_split()
+  user_split <-
+    user_meta %>% dplyr::group_by(UserID) %>% dplyr::group_split()
 
 
   UserSummary <- purrr::map(user_split, ~ {
@@ -56,16 +55,17 @@ openIntake24 <- function(input)
 
   ItemsPerSurvey <-
     user_meta %>% dplyr::group_by(SurveyID, UserID) %>% dplyr::count() %>%
-    dplyr::summarise(value = sum(n)) %>% dplyr::group_by(UserID) %>% dplyr::summarise(AverageItems = mean(value)) %>% dplyr::ungroup()
+    dplyr::summarise(value = sum(n), .groups = 'keep') %>% dplyr::group_by(UserID) %>% dplyr::summarise(AverageItems = mean(value)) %>% dplyr::ungroup()
 
   ItemsPerMeal <-
     user_meta %>% dplyr::group_by(SurveyID, UserID, MealName) %>% dplyr::count() %>%
-    dplyr::group_by(MealName, UserID) %>% dplyr::summarise(AverageItems = mean(n)) %>% dplyr::ungroup()
-
+    dplyr::group_by(MealName, UserID) %>% dplyr::summarise(AverageItems = mean(n), .groups = 'keep') %>% dplyr::ungroup()
 
   TimePerSurvey <-
-    user_meta %>% dplyr::select(SurveyID, UserID, CompletionTime) %>% dplyr::distinct() %>%
-    dplyr::summarise(AverageTime = mean(CompletionTime))  %>% dplyr::ungroup()
+    user_meta %>% dplyr::select(SurveyID,UserID, CompletionTime) %>% dplyr::distinct() %>%
+    dplyr::group_by(UserID) %>%
+    dplyr::summarise(AverageTime = mean(CompletionTime),
+                     .groups = 'keep')  %>% dplyr::ungroup()
 
 
   UserOverview <-
@@ -73,25 +73,37 @@ openIntake24 <- function(input)
 
 
   UserIDX <-
-    user_meta %>% dplyr::group_split() %>% purrr::map_chr(., ~ {
+    user_meta %>% dplyr::group_by(UserID) %>% dplyr::group_split() %>% purrr::map_chr(., ~ {
       .$UserID[1]
     })
 
   SurverysPerUser <-
-    user_meta %>% dplyr::group_split() %>% purrr::map_dbl(., ~ {
+    user_meta %>% dplyr::group_by(UserID) %>% dplyr::group_split() %>% purrr::map_dbl(., ~ {
       length(unique(.$SurveyID))
     }) %>% tibble::tibble(UserID = UserIDX, SurveyCount = .) %>% dplyr::left_join(UserOverview, ., by = 'UserID')
 
 
-  object@meta <- list(User = SurverysPerUser, Survery = ItemsPerMeal)
+  time_to_complete <-
+    user_meta %>% dplyr::ungroup() %>% dplyr::select(SurveyID, CompletionTime) %>% dplyr::distinct()
 
+
+
+  object@meta <-
+    list(User = SurverysPerUser,
+         Survery = ItemsPerMeal,
+         CompletionTime = time_to_complete)
 
 
   NutrientID <-
     column_index %>% dplyr::filter(INDEX == 'NUTRIENTS') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
 
   object@nutrients <-
-    input_clean %>% dplyr::select(RecordID, SurveyID, UserID, StartDate, MealName, NutrientID) %>%
+    input_clean %>% dplyr::select(RecordID,
+                                  SurveyID,
+                                  UserID,
+                                  StartDate,
+                                  MealName,
+                                  dplyr::all_of(NutrientID)) %>%
     tibble::as_tibble()
 
 
