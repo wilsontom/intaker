@@ -4,7 +4,7 @@
 #'
 #' @slot meta a list
 #' @slot food a `tibble`
-#' @slot nutrients `tibble`
+#' @slot nutrients a `tibble`
 #'
 #' @export
 

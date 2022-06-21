@@ -14,6 +14,6 @@ A S4 Class to store raw data from Intake24 Experiments
 
 \item{\code{food}}{a `tibble`}
 
-\item{\code{nutrients}}{`tibble`}
+\item{\code{nutrients}}{a `tibble`}
 }}
 
