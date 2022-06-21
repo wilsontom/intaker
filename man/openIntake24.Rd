@@ -10,7 +10,7 @@ openIntake24(input)
 \item{input}{a `tibble` of the raw Intake24 data export}
 }
 \value{
-a `Intake24` S4 object
+an `Intake24` S4 object
 }
 \description{
 Open Intake24 Experiment

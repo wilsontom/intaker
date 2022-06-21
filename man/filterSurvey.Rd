@@ -17,7 +17,7 @@ filterSurvey(object, energy_range = c(400, 4000), min_time = 2)
 \item{min_time}{a numeric value of minimum time to filter out}
 }
 \value{
-object an `Intake24` object
+an `Intake24` object
 }
 \description{
 Perform basic quality check on completed surveys by filtering out surveys which are extreme outlier's in total daily energy intake and have
