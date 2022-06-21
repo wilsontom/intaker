@@ -1,12 +1,12 @@
-#' A S4 Class to store raw data from Intake24 Experiments
+#' Intake24 Class
+#'
+#' @description A S4 Class to store raw data from Intake24 Experiments
 #'
 #' @slot meta a list
 #' @slot food a `tibble`
 #' @slot nutrients `tibble`
 #'
 #' @export
-
-setOldClass(c('tbl_df', 'tbl', 'data.frame'))
 
 setClass(
   Class = 'Intake24',
@@ -16,3 +16,5 @@ setClass(
     nutrients = 'tbl_df'
   )
 )
+
+setOldClass(c('tbl_df', 'tbl', 'data.frame'))
