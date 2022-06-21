@@ -1,7 +1,7 @@
 #' Open Intake24 Experiment
 #'
 #' @param input a `tibble` of the raw Intake24 data export
-#' @return a `Intake24` S4 object
+#' @return an `Intake24` S4 object
 #'
 #' @importFrom magrittr %>%
 #' @export
