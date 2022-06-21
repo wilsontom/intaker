@@ -7,8 +7,8 @@
 #' @param object an `Intake24` object
 #' @param energy_range a numeric vector of minimum and maximum total daily energy intake (KCals). Surveys with total daily energy intake outside of the specified range will be removed
 #' @param min_time a numeric value of minimum time to filter out
-#' @return object an `Intake24` object
-#' @export an `Intake24` object
+#' @return an `Intake24` object
+#' @export
 
 
 setMethod('filterSurvey',
