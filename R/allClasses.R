@@ -3,8 +3,8 @@
 #' @description A S4 Class to store raw data from Intake24 Experiments
 #'
 #' @slot meta a list
-#' @slot food a `tibble`
-#' @slot nutrients a `tibble`
+#' @slot food a `tbl_df`
+#' @slot nutrients a `tbl_df`
 #'
 #' @export
 

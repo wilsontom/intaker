@@ -12,8 +12,8 @@ A S4 Class to store raw data from Intake24 Experiments
 \describe{
 \item{\code{meta}}{a list}
 
-\item{\code{food}}{a `tibble`}
+\item{\code{food}}{a `tbl_df`}
 
-\item{\code{nutrients}}{a `tibble`}
+\item{\code{nutrients}}{a `tbl_df`}
 }}
 
