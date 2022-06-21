@@ -26,6 +26,8 @@ globalVariables(
     'FoodGroupEN',
     'FoodGroupLocal',
     'ServingSize',
-    'PortionSize'
+    'PortionSize',
+    'EnergyKCAL',
+    'TotalEnergy'
   )
 )
