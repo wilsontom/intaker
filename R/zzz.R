@@ -1,7 +1,10 @@
 globalVariables(
   c(
     '.',
-    'column_index',
+    'intake24_index',
+    'Type',
+    'New',
+    'Description',
     'INDEX',
     'NEW_NAME',
     'StartTime',
