@@ -11,7 +11,7 @@ setGeneric(
 )
 
 
-#' @rdname total
+#' @rdname totals
 
 setGeneric(
   name = 'totals',
