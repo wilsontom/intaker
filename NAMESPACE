@@ -2,6 +2,7 @@
 
 export(openIntake24)
 exportClasses(Intake24)
-exportMethods(filterSurvey)
+exportMethods(filter_survey)
 exportMethods(show)
+exportMethods(totals)
 importFrom(magrittr,"%>%")
