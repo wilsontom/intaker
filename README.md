@@ -1,13 +1,13 @@
-# tidyIntake24
+# intaker
 
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) [![R-CMD-check](https://github.com/aberWARU/tidyIntake24/workflows/R-CMD-check/badge.svg)](https://github.com/aberWARU/tidyIntake24/actions) ![License](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg "GNU GPL v3.0")
 
 ### Getting Started
 
-`tidyIntake24` can be installed directly from GitHub using the `remotes` package.
+`intaker` can be installed directly from GitHub using the `remotes` package.
 
 ``` r
-remotes::install_github('aberWARU/tidyIntake24')
+remotes::install_github('wilsontom/intaker')
 ```
 
 Once the package is installed, the `openIntake24` function can be used to open and parse raw data from Intake24 surveys.
