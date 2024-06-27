@@ -10,10 +10,15 @@ openIntake24 <- function(input)
 {
   object <- methods::new('Intake24')
 
-  names(input) <- column_index$NEW_NAME
+  raw_names <- tibble::tibble(Original = names(input))
+
+  reformat_index <-
+    raw_names %>% dplyr::left_join(., intake24_index, by = 'Original')
+
+  names(input) <- reformat_index$New
 
   remove_ids <-
-    column_index %>% dplyr::filter(INDEX == 'REMOVE') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
+    intake24_index %>% dplyr::filter(Type == 'REMOVE') %>% dplyr::select(New) %>% dplyr::pull()
 
   RowHash <-
     paste0(input$SurveyID, '_', 1:nrow(input)) %>% openssl::md5()
@@ -84,7 +89,7 @@ openIntake24 <- function(input)
 
 
   time_to_complete <-
-    user_meta %>% dplyr::ungroup() %>% dplyr::select(SurveyID, CompletionTime) %>% dplyr::distinct()
+    user_meta %>% dplyr::ungroup() %>% dplyr::select(SurveyID,UserID,CompletionTime) %>% dplyr::distinct()
 
 
 
@@ -95,7 +100,7 @@ openIntake24 <- function(input)
 
 
   NutrientID <-
-    column_index %>% dplyr::filter(INDEX == 'NUTRIENTS') %>% dplyr::select(NEW_NAME) %>% dplyr::pull()
+    intake24_index %>% dplyr::filter(Type == 'NUTRIENTS') %>% dplyr::select(New) %>% dplyr::pull()
 
   object@nutrients <-
     input_clean %>% dplyr::select(RecordID,
@@ -107,26 +112,17 @@ openIntake24 <- function(input)
     tibble::as_tibble()
 
 
-  object@food <-
-    input_clean %>% dplyr::select(
-      RecordID,
-      SurveyID,
-      UserID,
-      StartDate,
-      MealID,
-      MealName,
-      FoodID,
-      SearchTerm,
-      FoodCode,
-      DescriptionEN,
-      DescriptionLocal,
-      FoodGroupCode,
-      FoodGroupEN,
-      FoodGroupLocal,
-      ServingSize,
-      PortionSize
-    ) %>% tibble::as_tibble()
+  FoodID <-
+    intake24_index %>% dplyr::filter(Type == 'FOOD') %>% dplyr::select(New) %>% dplyr::pull()
 
+
+
+  object@food <-
+    input_clean %>% dplyr::select(RecordID,
+                                  SurveyID,
+                                  UserID,
+                                  StartDate,
+                                  dplyr::all_of(FoodID)) %>% tibble::as_tibble()
 
 
   return(object)
