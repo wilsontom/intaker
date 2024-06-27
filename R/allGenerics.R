@@ -1,11 +1,22 @@
-#' @rdname filterSurvey
+#' @rdname filter_survey
 
 setGeneric(
-  name = 'filterSurvey',
+  name = 'filter_survey',
   def = function(object,
                  energy_range = c(400, 4000),
                  min_time = 2)
   {
-    standardGeneric('filterSurvey')
+    standardGeneric('filter_survey')
+  }
+)
+
+
+#' @rdname total
+
+setGeneric(
+  name = 'totals',
+  def = function(object)
+  {
+    standardGeneric('totals')
   }
 )
