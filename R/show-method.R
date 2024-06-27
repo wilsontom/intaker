@@ -1,6 +1,7 @@
 #' show-Intake24
 #' @rdname show
 #' @param object an `Intake24` object
+#' @importFrom methods show
 #' @export
 
 setMethod('show', signature = 'Intake24',
