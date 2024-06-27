@@ -7,7 +7,7 @@ setMethod('show', signature = 'Intake24',
          function(object) {
            cat(cli::rule(
              left = crayon::bold('Intake24 Object'),
-             right = paste0('tidyIntake24 v', utils::packageVersion('tidyIntake24'))
+             right = paste0('intaker v', utils::packageVersion('intaker'))
            ), '\n')
 
            cat(crayon::red('Object Size:', format(utils::object.size(object), units = 'Mb'), '\n', '\n'))
@@ -19,15 +19,15 @@ setMethod('show', signature = 'Intake24',
            cat('End Date:', as.character(max(object@food$StartDate)), '\n', '\n')
 
 
-           mostFreq <- object@food %>% dplyr::select(DescriptionEN) %>%
-             dplyr::group_by(DescriptionEN) %>% dplyr::count() %>%
+           mostFreq <- object@food %>% dplyr::select(Description) %>%
+             dplyr::group_by(Description) %>% dplyr::count() %>%
              dplyr::ungroup() %>%
-             dplyr::filter(DescriptionEN != 'N/A') %>%
+             dplyr::filter(Description != 'N/A') %>%
              dplyr::arrange(-n)
 
            cat(cli::rule(left = crayon::bold('Top 10 items recorded')), '\n')
            for (i in 1:10) {
-             cat(paste0(mostFreq$DescriptionEN[i], ' (', crayon::yellow(mostFreq$n[i]), ')', '\n'))
+             cat(paste0(mostFreq$Description[i], ' (', crayon::yellow(mostFreq$n[i]), ')', '\n'))
            }
 
 
