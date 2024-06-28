@@ -12,8 +12,10 @@ openIntake24 <- function(input)
 
   raw_names <- tibble::tibble(Original = names(input))
 
+  ref_index <- intaker::intake24_index
+
   reformat_index <-
-    raw_names %>% dplyr::left_join(., get("intake24_index"), by = 'Original')
+    raw_names %>% dplyr::left_join(., ref_index, by = 'Original')
 
   names(input) <- reformat_index$New
 
