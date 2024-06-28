@@ -20,7 +20,7 @@ openIntake24 <- function(input)
   names(input) <- reformat_index$New
 
   remove_ids <-
-    intake24_index %>% dplyr::filter(Type == 'REMOVE') %>% dplyr::select(New) %>% dplyr::pull()
+    ref_index %>% dplyr::filter(Type == 'REMOVE') %>% dplyr::select(New) %>% dplyr::pull()
 
   RowHash <-
     paste0(input$SurveyID, '_', 1:nrow(input)) %>% openssl::md5()
