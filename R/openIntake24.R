@@ -9,6 +9,7 @@
 openIntake24 <- function(input)
 {
   object <- methods::new('Intake24')
+  data(intake24_index)
 
   raw_names <- tibble::tibble(Original = names(input))
 
