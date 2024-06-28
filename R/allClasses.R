@@ -1,3 +1,7 @@
+
+setOldClass(c('tbl_df', 'tbl', 'data.frame'))
+
+
 #' Intake24 Class
 #'
 #' @description A S4 Class to store raw data from Intake24 Experiments
@@ -8,6 +12,7 @@
 #'
 #' @export
 
+
 setClass(
   Class = 'Intake24',
   representation = representation(
@@ -17,4 +22,4 @@ setClass(
   )
 )
 
-setOldClass(c('tbl_df', 'tbl', 'data.frame'))
+
