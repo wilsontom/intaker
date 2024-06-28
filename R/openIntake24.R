@@ -102,7 +102,7 @@ openIntake24 <- function(input)
 
 
   NutrientID <-
-    intake24_index %>% dplyr::filter(Type == 'NUTRIENTS') %>% dplyr::select(New) %>% dplyr::pull()
+    ref_index %>% dplyr::filter(Type == 'NUTRIENTS') %>% dplyr::select(New) %>% dplyr::pull()
 
   object@nutrients <-
     input_clean %>% dplyr::select(RecordID,
@@ -115,7 +115,7 @@ openIntake24 <- function(input)
 
 
   FoodID <-
-    intake24_index %>% dplyr::filter(Type == 'FOOD') %>% dplyr::select(New) %>% dplyr::pull()
+    ref_index %>% dplyr::filter(Type == 'FOOD') %>% dplyr::select(New) %>% dplyr::pull()
 
 
 
