@@ -9,11 +9,11 @@
 openIntake24 <- function(input)
 {
   object <- methods::new('Intake24')
- 
+
   raw_names <- tibble::tibble(Original = names(input))
 
   reformat_index <-
-    raw_names %>% dplyr::left_join(., intaker::intake24_index, by = 'Original')
+    raw_names %>% dplyr::left_join(., get("intake24_index"), by = 'Original')
 
   names(input) <- reformat_index$New
 
