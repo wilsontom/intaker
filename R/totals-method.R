@@ -13,26 +13,33 @@ setMethod('totals',
           function(object)
           {
 
-            mutate_idx <-
-              object@nutrients %>% dplyr::select(-c(RecordID, SurveyID, UserID, StartDate, MealName)) %>% names()
+
+            nutrients <- suppressWarnings(object@nutrients %>%
+                                            dplyr::mutate_at(dplyr::vars(Water:TotalFS), as.numeric))
 
 
-            nutrients <- object@nutrients %>%
-              suppressWarnings(dplyr::mutate_at(dplyr::all_of(mutate_idx), as.numeric))
-
-
-            daily_totals <-
+            survery_nutrient_totals <-
               nutrients %>% dplyr::group_by(SurveyID) %>%
               dplyr::summarise_if(is.numeric, sum, na.rm = TRUE)
 
 
-
-            meal_totals <-
+            survery_meal_totals <-
               nutrients %>% dplyr::group_by(SurveyID, MealName) %>%
               dplyr::summarise_if(is.numeric, sum, na.rm = TRUE)
 
 
-            return(list(daily_totals, meal_totals))
+            foods <- suppressWarnings(object@food %>%
+                                        dplyr::mutate_at(dplyr::vars(Fruit:Other_Cheese), as.numeric))
+
+
+
+
+
+
+
+
+
+            return(list(survery_nutrient_totals, survery_meal_totals))
 
 
           })
